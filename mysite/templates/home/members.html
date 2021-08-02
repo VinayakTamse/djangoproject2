@@ -1,0 +1,62 @@
+{% extends 'basic.html' %}
+{% block title %}Members{% endblock title%}
+{% block body %}
+<div class="container">
+    <div class="row my-5">
+        <div class="col-sm-6">
+            <form action="{% url 'members' %}" method="post">{% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" name="email"
+                        aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="number" class="form-label">Phone</label>
+                    <input type="phone" class="form-control" id="number" name="number">
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="addmem">Add</button>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            {% if member %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for mem in member %}
+                    <tr>
+                        <td>{{mem.name}}</td>
+                        <td>{{mem.email}}</td>
+                        <td>{{mem.phone}}</td>
+                        <form action="{% url 'update' mem.id %}" method="get">
+                            <td><input type="submit" class="btn btn-warning btn-sm" value="Update"></td>
+                        </form>
+                        <form action="{% url 'delete_member' mem.id %}" method="post">{% csrf_token %}
+                            <td><input type="submit" class="btn btn-danger btn-sm" value="Delete"></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %}
+            <p>No Members Added</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% load static %}
+<script src="{% static 'home/member.js' %}"></script>
+{% endblock body %}

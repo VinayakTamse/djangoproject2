@@ -15,6 +15,6 @@ class UsersMemberRegister(forms.ModelForm):
     
 class Agents(forms.Form):
 
-    Agent_Name = forms.CharField(max_length=20)
-    Agent_Phone = forms.CharField(max_length=50)
+    Agent_Name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class':'form-control'}))
+    Agent_Phone = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class':'form-control'}))
    

@@ -166,8 +166,9 @@ def agents(request):
             return redirect('/')
 
     ag = Agents()
+    dis_ag = AgentMode.objects.all()
 
-    return render(request, 'home/agent.html', {'form':ag})
+    return render(request, 'home/agent.html', {'form':ag, 'agents':dis_ag})
 
 
     

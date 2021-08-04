@@ -2,10 +2,32 @@
 {% block title %}agents{% endblock title %}
 {% block body %}
 <div class="container mt-5">
-    
+
     <form method="post">{% csrf_token %}
         {{form.as_p}}
         <input type="submit" class="btn btn-secondary" value="Add">
     </form>
+
+    <table class="table table-secondary table-striped my-5">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Contact</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if agents %}
+            {% for agent in agents %}
+            <tr>
+                <td>{{agent.ag_name}}</td>
+                <td>{{agent.ag_phone}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <h6 class="mt-5">No Records Found</h6>
+            {% endif %}
+            
+        </tbody>
+    </table>
 </div>
 {% endblock body %}

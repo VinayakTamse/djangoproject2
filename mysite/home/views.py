@@ -7,7 +7,10 @@ from django.contrib import messages
 from .models import AgentMode, ExtraField, Member, UserMember
 import re
 from .forms import UsersMemberRegister, Agents
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django import views
+from blog.models import BlogPosts
 
 # Create your views here.
 @login_required(login_url='/login/')
@@ -84,7 +87,7 @@ def handleLogout(request):
         logout(request)
         return render(request, 'home/logout.html')
 
-    return HttpResponse('<h2>404 - Page Not Found</h2>')
+    return HttpResponse('<div style="text-align:center;"><svg viewbox="0 0 50 50" height="200px" width="700px"><text x="-45" y="30" stroke="red">404 Page Not Found</text></svg></div>')
 
 
 def members(request):
@@ -170,8 +173,24 @@ def agents(request):
 
     return render(request, 'home/agent.html', {'form':ag, 'agents':dis_ag})
 
-
+class SearchView(views.View):
     
+    def get(self, request):
+        
+        if request.user.is_authenticated:
+            query = request.GET['search']
+            if len(query)>50:
+                bp = BlogPosts.objects.none()
+
+            bpt = BlogPosts.objects.filter(blog_title__icontains=query)
+            bpc = BlogPosts.objects.filter(blog_content__icontains=query)
+            bp = bpt.union(bpc)
+
+            
+            return render(request, 'home/search.html', {'search_post':bp,'query':query})
+        else:
+            return HttpResponse('<div style="text-align:center;"><svg viewbox="0 0 50 50" height="200px" width="700px"><text x="-45" y="30" stroke="red">404 Page Not Found</text></svg></div>')
+        
 
 
     

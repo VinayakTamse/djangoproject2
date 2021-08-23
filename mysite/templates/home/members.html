@@ -1,9 +1,14 @@
 {% extends 'basic.html' %}
 {% block title %}Members{% endblock title%}
+{% block css %}
+
+
+
+{% endblock css %}
 {% block body %}
 <div class="container">
     <div class="row my-5">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <form action="{% url 'members' %}" method="post">{% csrf_token %}
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
@@ -25,7 +30,7 @@
         </div>
         <div class="col-sm-6">
             {% if member %}
-            <table class="table table-dark table-striped">
+            <table class="table table-dark table-striped" id="table">
                 <thead>
                     <tr>
                         <th scope="col">Name</th>

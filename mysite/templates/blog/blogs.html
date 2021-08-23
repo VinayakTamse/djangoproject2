@@ -1,0 +1,31 @@
+{% extends 'basic.html' %}
+{% block title %}blogs{% endblock title %}
+{% block body %}
+
+<div class="container my-5">
+{% if user.is_authenticated %}
+    <div class="row">
+
+        {% if b_post %}
+        {% for posts in b_post %}
+
+        <div class="col-sm-6">
+            <div class="col p-4 d-flex flex-column position-static">
+                <h3><strong class="d-inline-block mb-2 text-primary">{{posts.blog_title}}</strong></h3>
+                <h5 class="mb-0">Posted By {{posts.blog_author}}</h5>
+                <div class="mb-1 text-muted">{{posts.blog_date}}</div>
+                <p class="card-text mb-auto mt-2">{{posts.blog_content|truncatechars:50}}</p>
+                <a href="{% url 'details' posts.sno %}" role="button" class="btn btn-secondary mt-2" style="width: 200px;">Continue reading</a>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h2>No Posts</h2>
+        {% endif %}
+
+    </div>
+    {% else %}
+    <h3 class="text-center mt-5">Please Login</h3>
+    {% endif %}
+</div>
+{% endblock body %}

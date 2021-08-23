@@ -23,5 +23,6 @@ admin.site.index_title = "Welcome to Our Admin Site"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
+    path('blogs/', include('blog.urls')),
     
 ]

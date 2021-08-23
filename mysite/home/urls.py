@@ -12,5 +12,6 @@ urlpatterns = [
     path('logout/', views.handleLogout, name='logout'),
     path('usermembers/<int:id>', views.user_members_add, name='user_members'),
     path('agent/', views.agents, name="agents"),
+    path('search/', views.SearchView.as_view(), name="search"),
    
 ]

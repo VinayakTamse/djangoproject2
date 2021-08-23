@@ -1,0 +1,107 @@
+{% extends 'basic.html' %}
+{% block title %}blog details{% endblock title %}
+{% block css %}
+.img {
+
+text-align: center;
+
+}
+
+{% endblock css %}
+{% block body %}
+{% load humanize %}
+{% load extraFilters %}
+<div class="blog_detail">
+    {% if user.is_authenticated %}
+    <div class="container">
+        {% if b_post %}
+
+        <div class="col p-4 d-flex flex-column position-static">
+            {% load static %}
+            <h3><strong class="d-inline-block mb-2 text-primary">{{b_post.blog_title}}</strong></h3>
+            <h5 class="mb-0">Posted By {{b_post.blog_author}}</h5>
+            <div class="mb-1 text-muted">{{b_post.blog_date}}</div>
+            <p class="card-text mb-auto mt-2">{{b_post.blog_content}}</p>
+            <!--<a href="#" role="button" class="btn btn-secondary mt-2" style="width: 200px;">Continue reading</a>-->
+        </div>
+        <div class="comments mx-4">
+
+
+            <div class="commentshere">
+                <h5 class="mb-2">Comments ({{comment_posts.count}}):</h5>
+                <form action="" method="post">{% csrf_token %}
+                    <input type="hidden" name="postno" value="{{b_post.sno}}">
+                    <textarea name="comments" id="comments" placeholder="Comment" cols="30" rows="3"
+                        class="form-control mb-3"></textarea>
+                    <input type="hidden" name="comment_id" value="">
+                    <input type="submit" class="btn btn-secondary" value="Comment">
+                </form>
+            </div>
+
+            {% for comment in comment_posts %}
+            <div class="row mt-3">
+
+                <div class="col-sm-2 img">
+
+
+                    <img src="{% static 'home/user.png' %}" alt="user_img" width="50px" height="50px">
+                </div>
+                <div class="col-sm-8 showcomments">
+
+                    <p>By <b>{{comment.user.username}}</b></p><span
+                        class="badge bg-secondary">{{comment.timestamp|naturaltime}}</span>
+                    <div>{{comment.comments}}</div>
+                    <div id="reply">
+                        <p>
+                            <button class="btn btn-sm btn-secondary" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#replycomment{{comment.sno}}" aria-expanded="false"
+                                aria-controls="collapseExample">
+                                Reply
+                            </button>
+                        </p>
+                        <div class="collapse" id="replycomment{{comment.sno}}">
+                            <div class="card card-body">
+                                <form action="" method="post"> {% csrf_token %}
+                                    <input type="hidden" name="comment_id" value="{{comment.sno}}">
+                                    <input type="hidden" name="postno" value="{{b_post.sno}}">
+                                    <input type="text" class="form-control mb-3" name="comments" id="commeny"
+                                        placeholder="Your Reply">
+                                    <input type="submit" value="Reply" class="btn btn-secondary w-25">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% if repdict|get_dict_length > 0 %}
+                    <button class="badge bg-secondary" data-bs-toggle="collapse"
+                        data-bs-target="#showreplies{{comment.sno}}" aria-expanded="false"
+                        aria-controls="collapseExample2">View Replies</button>
+                    <div class="collapse" id="showreplies{{comment.sno}}">
+                        {% for reply in repdict|get_key_val:comment.sno %}
+                        <div id="content" class="ms-3 mt-2">
+                            {{reply.comments}} - reply posted by <small><strong>{{reply.user.username}}</strong></small>
+                            <br>
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+                    {% endif %}
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% endif %}
+
+        {% else %}
+
+    </div>
+    <h3 class="text-center mt-5">Please Login</h3>
+    {% endif %}
+
+
+</div>
+
+
+{% endblock body %}

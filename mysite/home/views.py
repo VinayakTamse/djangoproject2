@@ -207,6 +207,7 @@ class AddProfile(views.View):
         if profile_form.is_valid():
            
             profile_form.save()
-            return redirect('/')
+            return redirect('/profile/')
+        return redirect('/profile/')
 
 

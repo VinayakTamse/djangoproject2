@@ -43,7 +43,7 @@ class ProfileForm(forms.ModelForm):
         labels = {'DOB':'Date of Birth', 'Job_city':'Prefered Location', 'profile_img':'Profile Image', 'prof_file':'Upload Document'}
         widgets = {
             'name': forms.TextInput(attrs={'class':'form-control'}),
-            'DOB': forms.DateInput(attrs={'class':'form-control', 'id':'datepicker'}),
+            'DOB': forms.DateInput(attrs={'type':'date' ,'class':'form-control', 'id':'datepicker'}),
             'city':forms.TextInput(attrs={'class':'form-control'}),
             'Pin': forms.NumberInput(attrs={'class':'form-control'}),
             'State': forms.Select(attrs={'class':'form-control'}),

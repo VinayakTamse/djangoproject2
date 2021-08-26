@@ -11,6 +11,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django import views
 from blog.models import BlogPosts
+from home.models import Profile
+from home.forms import ProfileForm
 
 # Create your views here.
 @login_required(login_url='/login/')
@@ -191,8 +193,20 @@ class SearchView(views.View):
         else:
             return HttpResponse('<div style="text-align:center;"><svg viewbox="0 0 50 50" height="200px" width="700px"><text x="-45" y="30" stroke="red">404 Page Not Found</text></svg></div>')
         
+class AddProfile(views.View):
 
+    def get(self, request):
 
-    
+        prof_form = ProfileForm()
+        send = {'form':prof_form}
+
+        return render(request, 'home/profile.html', send)
+
+    def post(self, request):
+        profile_form = ProfileForm(request.POST, request.FILES)
+        if profile_form.is_valid():
+           
+            profile_form.save()
+            return redirect('/')
 
 

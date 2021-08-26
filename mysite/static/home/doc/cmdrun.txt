@@ -1,0 +1,3 @@
+to run on cmd
+
+javaws http://mo-7ea2f676a.mo.sap.corp:8080/computer/UFT_Gateway_mo-f73c7f33b/slave-agent.jnlp

@@ -1,0 +1,27 @@
+{% extends 'basic.html' %}
+{% block title %}Home | Profile{% endblock title %}
+{% block css %}
+
+#id_gender, #id_Job_city {
+    list-style-type: none;
+    display: inline-flex;
+}
+
+#id_gender li, #id_Job_city li {
+    padding-left:25px;
+}
+
+{% endblock css %}
+{% block body %}
+<div class="container mt-5">
+<form action="{% url 'profile' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="Submit" id="profsubmit" class="btn btn-secondary mb-5">
+</form>
+
+</div>
+
+{% endblock body %}
+
+
+

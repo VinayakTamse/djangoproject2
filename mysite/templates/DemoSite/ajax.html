@@ -1,0 +1,106 @@
+<script>
+
+    $("#submit").on('click', function (e) {
+        e.preventDefault();
+        console.log('clicked on submit');
+        let id = $("#demo_id").val()
+        let nameId = $("#name").val();
+        let departId = $("#dept").val();
+        let ageId = $("#age").val();
+        let csrf_token_value = $("input[name=csrfmiddlewaretoken]").val();
+        (nameId == "") ? alert('Please Enter Name') : (departId == "") ? alert('Enter Department') : (ageId == "") ? alert('Enter age') : console.log('validations passed');
+        demodata = {u_id:id,name:nameId, dept:departId, age:ageId, csrfmiddlewaretoken:csrf_token_value};
+        $.ajax({
+
+            url:"{% url 'ajax-create' %}",
+            method:"POST",
+            dataType:'json',
+            data: demodata,
+            success: function(response){
+                
+                if (response.statusCode==201)
+                {
+                    $("form")[0].reset();
+                    //console.log(response.demo_users_lists)
+                    list_usr = response.demo_users_lists;
+                    let html = '';
+                    for (let i=0; i,list_usr.length; i++)
+                    {
+                            dem_id = list_usr[i].id;
+                            dem_name = list_usr[i].name;
+                            dem_department = list_usr[i].department;
+                            dem_age = list_usr[i].age;
+                            html += ` <tr>
+                                        <td>${dem_name}</td>
+                                        <td>${dem_department}</td>
+                                        <td>${dem_age}</td>
+                                        <td><button type="submit" data-sid="${dem_id}" class="btn btn-sm btn-dark up-btn" value="Update">Update</td>
+                                        <td><button type="submit" data-sid="${dem_id}" class="btn btn-sm btn-dark del-btn" value="Delete">Delete</button></td>
+                                        </tr>`;
+                        document.querySelector("#table_content").innerHTML=html;
+                    }
+                }
+            },
+            error: function(err){
+                console.log(err);
+
+            }
+
+        });
+
+
+    });
+
+    // Handle Delete Operations
+    $("tbody#table_content").on("click", ".del-btn", function(e){
+        e.preventDefault();
+
+        let id = $(this).attr("data-sid");
+        let csrf_token_value = $("input[name=csrfmiddlewaretoken]").val();
+        console.log(id);
+        del_btn_tar = this;
+        mydata = {sid:id, csrfmiddlewaretoken:csrf_token_value};
+        $.ajax({
+
+            url:"{% url 'delete' %}",
+            method:"POST",
+            dataType:"json",
+            data:mydata,
+            success: function(res){
+                if (res.statusCode == 200)
+                {
+                    $(del_btn_tar).closest('tr').fadeOut(1000);
+                }
+            },
+            error: function(err){
+                console.log(err);
+            }
+
+        });
+
+    });
+
+    // handle Update Operations
+    $("tbody#table_content").on('click', '.up-btn', function(){
+
+        let dem_id = $(this).attr("data-sid");
+        let csrf_token_value = $("input[name=csrfmiddlewaretoken]").val();
+        console.log(dem_id);
+        mydata = {sid:dem_id, csrfmiddlewaretoken:csrf_token_value}
+        $.ajax({
+
+            url: "{% url 'update' %}",
+            method: 'POST',
+            dataType: 'json',
+            data: mydata,
+            success: function(res){
+                $("#demo_id").val(res.id)
+                $('#name').val(res.name)
+                $("#dept").val(res.department)
+                $("#age").val(res.age)
+            }
+
+        });
+
+    });
+</script>

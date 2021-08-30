@@ -1,0 +1,65 @@
+{% extends 'basic.html' %}
+{% block title %}DemoSite | AJAX CRUD OPERATIONS{% endblock title %}
+{% block css %}
+body {
+background-color:#f2f2f2;
+}
+{% endblock css %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row ms-3 mt-5">
+        <div class="col-sm-4">
+            <form action="" method="post" id='demo-form'>
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="hidden" class="form-control" id="demo_id" name="demo_id">
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label" style="font-weight: bold;">Name</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="mb-3">
+                    <label for="dept" class="form-label" style="font-weight: bold;">Department</label>
+                    <input type="text" class="form-control" id="dept" name="dept">
+                </div>
+                <div class="mb-3">
+                    <label for="age" class="form-label" style="font-weight: bold;">Age</label>
+                    <input type="number" class="form-control" id="age" name="age">
+                </div>
+                <div class="mb-3">
+                    <input type="submit" class="btn btn-secondary" id="submit" value="Submit" name="submit">
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6 offset-1">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Age</th>
+                    </tr>
+                </thead>
+                <tbody id='table_content'>
+                    {% if demo_users %}
+                    {% for usr in demo_users %}
+                    <tr>
+                        <td>{{usr.name}}</td>
+                        <td>{{usr.department}}</td>
+                        <td>{{usr.age}}</td>
+                        <td><button type="submit" data-sid="{{usr.id}}" class="btn btn-sm btn-dark up-btn" value="Update">Update</td>
+                        <td><button type="submit" data-sid="{{usr.id}}" class="btn btn-sm btn-dark del-btn" value="Delete">Delete</button></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+{% include 'DemoSite/ajax.html' %}
+{% endblock body %}

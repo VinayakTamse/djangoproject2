@@ -1,4 +1,4 @@
-from django.http.response import HttpResponseForbidden, HttpResponseNotFound
+from django.http.response import Http404, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -204,10 +204,16 @@ class AddProfile(views.View):
 
     def post(self, request):
         profile_form = ProfileForm(request.POST, request.FILES)
-        if profile_form.is_valid():
+        print(profile_form.errors)
+        print(profile_form.is_valid())
+        try:
+            if profile_form.is_valid():
            
-            profile_form.save()
-            return redirect('/profile/')
-        return redirect('/profile/')
+                profile_form.save()
+                return redirect('/profile/')
+            else:
+                return HttpResponse('<h1>Validation Failed</h1>')
+        except Exception as e:
+            return HttpResponse(e)
 
 

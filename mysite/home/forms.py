@@ -35,6 +35,7 @@ class ProfileForm(forms.ModelForm):
 
     gender = forms.ChoiceField(choices=GENDER_CHOICES, widget=forms.RadioSelect)
     Job_city = forms.MultipleChoiceField(choices=JOB_LOCATIONS, widget=forms.CheckboxSelectMultiple)
+    
 
     class Meta:
 
@@ -46,8 +47,10 @@ class ProfileForm(forms.ModelForm):
             'DOB': forms.DateInput(attrs={'type':'date' ,'class':'form-control', 'id':'datepicker'}),
             'city':forms.TextInput(attrs={'class':'form-control'}),
             'Pin': forms.NumberInput(attrs={'class':'form-control'}),
-            'State': forms.Select(attrs={'class':'form-control'}),
+            'State': forms.Select(attrs={'class':'form-select'}),
             'Mobile': forms.NumberInput(attrs={'class':'form-control'}),
             'email': forms.EmailInput(attrs={'class':'form-control'}),
+            'profile_img': forms.FileInput(attrs={'class':'form-control'}),
+            'prof_file': forms.FileInput(attrs={'class':'form-control'}),
         }
    

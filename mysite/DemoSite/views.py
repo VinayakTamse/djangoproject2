@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 from .models import DemoSite, DemoUser
+#from django.contrib import messages
 
 # Create your views here.
 
@@ -30,13 +31,16 @@ def CreateOperation(request):
         if id == '':
             dem_usr = DemoUser.objects.create(name=name, department=dept, age=age)
             dem_usr.save()
+            #messages.success(request, 'Save Data Successfully')
+            
 
         else:
             dem_usr = DemoUser.objects.filter(id=id).update(name=name, department=dept, age=age)
+           #messages.success(request, 'Updated Data Successfully')
         
         demo_users = DemoUser.objects.values()
         demo_users_lists = list(demo_users)
-        return JsonResponse({'statusCode':201, 'response':'OK', 'demo_users_lists':demo_users_lists})
+        return JsonResponse({'statusCode':201, 'response':'OK', 'message':'Saved Data Successfully', 'demo_users_lists':demo_users_lists})
 
 
         
@@ -53,7 +57,8 @@ def DeleteOperations(request):
         #print("Value is",dem_id)
         del_id = DemoUser.objects.get(pk=dem_id)
         del_id.delete()
-        return JsonResponse({'statusCode':200})
+        #messages.success(request, 'Deleted Data Successfully')
+        return JsonResponse({'statusCode':200,'message':'Deleted Data Successfully'})
 
 
 def UpdateOperations(request):

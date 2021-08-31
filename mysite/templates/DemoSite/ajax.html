@@ -20,6 +20,8 @@
             success: function (response) {
 
                 if (response.statusCode == 201) {
+                   
+                    
                     $('.msgs').text(response.message);
                     $('.msgs').css({'font-weight':'bolder', 'font-style':'italic'})
                     $(".msgs").fadeIn(1000);

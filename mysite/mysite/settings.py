@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'blog.apps.BlogConfig',
     'DemoSite.apps.DemositeConfig',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'DemoSite.apps.DemositeConfig',
     'rest_framework',
     'api',
+    'demoapi.apps.DemoapiConfig',
 ]
 
 MIDDLEWARE = [

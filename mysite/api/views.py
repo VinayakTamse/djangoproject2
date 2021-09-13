@@ -1,3 +1,4 @@
+from functools import partial
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from api.models import Employee
@@ -33,3 +34,20 @@ def create_employee_data(request):
             json_msg = JSONRenderer().render(message)
             return HttpResponse(json_msg, content_type='application/json')
         return JsonResponse({'message':'failed', 'err':serialize.errors})
+
+@csrf_exempt
+def update_employee_data(request, id):
+    if request.method == 'PUT':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        py_data = JSONParser().parse(stream)
+        empoyee_data = Employee.objects.get(pk=id)
+        serialize = EmployeeSerializers(empoyee_data, data=py_data, partial=True)
+        if serialize.is_valid():
+            serialize.save()
+            return JsonResponse({'message':'updated data'})
+    return JsonResponse({'message':'invalid'})
+
+
+   
+        

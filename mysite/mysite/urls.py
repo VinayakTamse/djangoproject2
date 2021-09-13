@@ -27,5 +27,6 @@ urlpatterns = [
     path('DemoSite/', include('DemoSite.urls')),
     path('api/', include('api.urls')),
     path('demoapi/', include('demoapi.urls')),
+    path('apirest/', include('restapiemployee.urls')),
     
 ]

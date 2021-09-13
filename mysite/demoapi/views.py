@@ -47,22 +47,24 @@ class Material_API(APIView):
 
     def get(self, request, id=None, format=None):
 
-         ob = Material.objects.filter(pk=id)
-
-         if ob==True:
+         
         
             if id is not None:
+                ob = Material.objects.filter(pk=id).exists()
 
-                material_details = Material.objects.get(pk=id)
-                mat_serializer = MaterialSerializer(material_details)
-                return Response(mat_serializer.data)
+                if ob==True:
+
+                    material_details = Material.objects.get(pk=id)
+                    mat_serializer = MaterialSerializer(material_details)
+                    return Response(mat_serializer.data)
+                else:
+
+                    return Response({'msg':'no content'}, status=status.HTTP_204_NO_CONTENT)
             else:
                 material_details = Material.objects.all()
                 mat_serializer = MaterialSerializer(material_details, many=True)
                 return Response(mat_serializer.data)
-         else:
-
-             return Response({'msg':'no content'}, status=status.HTTP_204_NO_CONTENT)
+         
 
 
     def post(self, request, format=None):
@@ -83,7 +85,7 @@ class Material_API(APIView):
 
 
 
-    def delete(self, request, id):
+    def delete(self, request, id, format=None):
         inst = Material.objects.get(pk=id)
         inst.delete()
         return Response({'msg':'Deleted'})

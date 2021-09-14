@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'api',
     'demoapi.apps.DemoapiConfig',
     'restapiemployee.apps.RestapiemployeeConfig',
+    'api2.apps.Api2Config',
 ]
 
 MIDDLEWARE = [
